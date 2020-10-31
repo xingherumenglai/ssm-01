@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.ssm.mapper.CartsMapper">
+<resultMap id="BaseResultMap" type="com.smart.ssm.entity.Carts">
+<id property="cartsId" column="carts_id"></id>
+<result property="productId" column="product_id"/>
+<result property="userId" column="user_id"/>
+<result property="quality" column="quality"/>
+<result property="status" column="status"/>
+</resultMap>
+<sql id="Base_column_List">
+    carts_id,
+    quality,
+    product_id,
+    user_id,
+    `status`
+</sql><insert id="insert" >
+insert into carts c (c.cate_id,c.quality,c.user_id,c.product_id)
+values (#{cartsId},#{quality},#{userId},#{productId})
+where status=0
+</insert>
+<select id="selectByUserIdAndProductId" resultMap="BaseResultMap">
+select c.carts_id,c.quality,c.product_id,c.user_id,c.status
+from carts c
+where c.product_id =#{productId}
+and c.user_id=#{userId}
+and status =0
+</select>
+<update id="updateById">
+update carts
+set quality=#{quality}
+where carts_id=#{cartsId}
+and status=0
+</update>
+<select id="selectList" resultMap="BaseResultMap">
+select *
+from carts
+where user_id=#{userId}
+AND status =0;
+</select>
+<update id="delCartsById">
+update carts c
+set status=1
+where c.cate_id =#{cateId}
+and c.product_id=#{productId}
+</update>
+<update id="updateByCartId">
+insert into carts c
+set c.cate_id=#{cartsId}
+where status =0;
+
+</update>
+
+</mapper>
